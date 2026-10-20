@@ -1,0 +1,83 @@
+name: windows release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: syntax check
+        shell: bash
+        run: |
+          for f in server/*.js server/firewall/*.js server/data/*.js public/app.js scripts/assemble.js; do
+            node --check "$f" || exit 1
+          done
+
+      - name: windows firewall smoke test (real netsh)
+        shell: pwsh
+        run: |
+          $srv = Start-Process node -ArgumentList 'server/index.js','--no-open','--port','7391' `
+            -PassThru -RedirectStandardOutput srv.log -RedirectStandardError srv.err
+
+          $st = $null
+          foreach ($i in 1..40) {
+            try {
+              $st = Invoke-RestMethod 'http://127.0.0.1:7391/api/status' -TimeoutSec 2
+              break
+            } catch { Start-Sleep -Seconds 1 }
+          }
+          if (-not $st) {
+            Get-Content srv.log, srv.err -ErrorAction SilentlyContinue
+            throw 'server did not start'
+          }
+          if ($st.mode -ne 'windows') { throw "expected mode 'windows', got '$($st.mode)'" }
+          if (-not $st.admin) { throw 'runner should be admin' }
+
+          $r = Invoke-RestMethod 'http://127.0.0.1:7391/api/regions'
+          if ($r.regions.Count -ne 11) { throw "expected 11 regions, got $($r.regions.Count)" }
+
+          # block a region for real
+          Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:7391/api/regions/ord1' `
+            -ContentType 'application/json' -Body '{"blocked":true}' | Out-Null
+          $rule = netsh advfirewall firewall show rule 'name=cuteserverblocker ord1'
+          if ($rule -notmatch 'cuteserverblocker ord1') { throw "rule missing after block:`n$rule" }
+
+          # unblock everything
+          Invoke-RestMethod -Method Post -Uri 'http://127.0.0.1:7391/api/unblock-all' `
+            -ContentType 'application/json' -Body '{}' | Out-Null
+          $rule2 = netsh advfirewall firewall show rule 'name=cuteserverblocker ord1'
+          if ($rule2 -notmatch 'No rules match') { throw "rule still present after unblock:`n$rule2" }
+
+          Stop-Process -Id $srv.Id -Force -ErrorAction SilentlyContinue
+          Write-Host 'firewall smoke test ok'
+
+      - name: assemble dist
+        run: node scripts/assemble.js --with-node
+
+      - name: zip it
+        shell: pwsh
+        run: Compress-Archive -Path dist/cuteserverblocker -DestinationPath cuteserverblocker-win-x64.zip -Force
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cuteserverblocker-win-x64
+          path: cuteserverblocker-win-x64.zip
+
+      - name: publish release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: cuteserverblocker-win-x64.zip
+          generate_release_notes: true

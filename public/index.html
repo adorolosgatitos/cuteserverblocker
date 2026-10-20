@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>cute server blocker ♡</title>
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Nunito:ital,wght@0,400;0,600;0,800;1,600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="sky" id="sky" aria-hidden="true"></div>
+
+  <div class="shell">
+    <header class="header">
+      <div class="mascot" aria-hidden="true">
+        <svg viewBox="0 0 170 168" xmlns="http://www.w3.org/2000/svg">
+          <g stroke="#5c4a63" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+            <!-- body -->
+            <path d="M46 164 Q42 122 68 112 L102 112 Q128 122 124 164 Z" fill="#ffd9ea" />
+            <!-- ears -->
+            <path d="M36 66 L30 20 L68 44 Z" fill="#ffd9ea" />
+            <path d="M134 66 L140 20 L102 44 Z" fill="#ffd9ea" />
+            <path d="M45 60 L42 36 L59 47 Z" fill="#ffb9d2" stroke-width="3" />
+            <path d="M125 60 L128 36 L111 47 Z" fill="#ffb9d2" stroke-width="3" />
+            <!-- paws -->
+            <ellipse cx="63" cy="156" rx="15" ry="10" fill="#fff6fa" />
+            <ellipse cx="107" cy="156" rx="15" ry="10" fill="#fff6fa" />
+            <path d="M58 150 v5 M68 150 v5 M102 150 v5 M112 150 v5" stroke-width="3" />
+            <!-- head -->
+            <ellipse cx="85" cy="78" rx="56" ry="48" fill="#fff6fa" />
+            <!-- whiskers -->
+            <path d="M36 74 L8 66 M36 88 L8 94" stroke-width="4" />
+            <path d="M134 74 L162 66 M134 88 L162 94" stroke-width="4" />
+            <!-- happy eyes -->
+            <path d="M62 74 q9 -13 18 0" fill="none" stroke-width="6" />
+            <path d="M90 74 q9 -13 18 0" fill="none" stroke-width="6" />
+            <!-- blush -->
+            <ellipse cx="53" cy="88" rx="10" ry="6" fill="#ff9fc0" stroke="none" opacity=".8" />
+            <ellipse cx="117" cy="88" rx="10" ry="6" fill="#ff9fc0" stroke="none" opacity=".8" />
+            <!-- nose + ω mouth -->
+            <path d="M81 83 h8 l-4 5 z" fill="#ff8fb1" stroke-width="3" />
+            <path d="M74 91 q5.5 8 11 1 M85 92 q5.5 7 11 -1" fill="none" stroke-width="4" />
+            <!-- collar + bell -->
+            <path d="M57 114 Q85 132 113 114" fill="none" stroke="#ff8fb1" stroke-width="6" />
+            <circle cx="85" cy="131" r="9" fill="#ffd76e" stroke-width="4" />
+            <path d="M85 127 v5" stroke-width="3" />
+            <!-- sparkles -->
+            <path d="M148 24 v10 M143 29 h10" stroke="#ffb03c" stroke-width="4" />
+            <path d="M18 116 v8 M14 120 h8" stroke="#c9b6ff" stroke-width="4" />
+          </g>
+        </svg>
+      </div>
+
+      <div class="titles">
+        <h1>cute server blocker</h1>
+        <p class="sub">nyaa~ block the servers u don't want, keep meowing ♡</p>
+      </div>
+
+      <div class="mode-chip" id="modeChip">loading…</div>
+    </header>
+
+    <div id="banners" role="status"></div>
+
+    <section class="toolbar" aria-label="tools">
+      <button class="btn btn-ghost" id="pingBtn" title="re-check latency">♡ re-check lag</button>
+      <button class="btn btn-ghost" id="unbanBtn" title="remove every block">let them all go ～(˙﹏˙)~</button>
+
+      <label class="soft-toggle" title="blocks only exist while this app is open">
+        <input type="checkbox" id="onlyWhileOpen" />
+        <span class="soft-track" aria-hidden="true"><span class="soft-dot"></span></span>
+        <span class="soft-label">only while i'm open</span>
+      </label>
+
+      <span class="hint" id="blockedHint"></span>
+    </section>
+
+    <main class="grid" id="grid" aria-live="polite"></main>
+
+    <footer class="footer">
+      <p>
+        does not touch the game — just adds outbound ip filters to windows, like a very fluffy ad blocker.
+        inspired by <a href="https://github.com/stowmyy/dropship" target="_blank" rel="noreferrer">dropship</a> ♡
+      </p>
+      <p class="warn-text">
+        ⚠ party queues may still put you on blocked servers unless everyone blocks them too ·
+        practice range skips the matchmaker (use a custom game to test) ·
+        if you can't connect to a match, unblock everything fast to dodge a competitive ban
+      </p>
+    </footer>
+  </div>
+
+  <div id="toasts" aria-live="assertive"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

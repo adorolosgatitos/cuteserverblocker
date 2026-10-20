@@ -1,0 +1,27 @@
+{
+  "name": "cuteserverblocker",
+  "version": "0.1.0",
+  "description": "a cutesy portable server selector for overwatch 2 ~ block the servers you don't want with a kitty paw",
+  "type": "module",
+  "main": "server/index.js",
+  "bin": {
+    "cuteserverblocker": "server/index.js"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node server/index.js --dry-run --no-open --demo-pings",
+    "dist": "node scripts/assemble.js --with-node"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "overwatch",
+    "server-selector",
+    "firewall",
+    "blocker",
+    "kawaii",
+    "cat"
+  ],
+  "license": "MIT"
+}
