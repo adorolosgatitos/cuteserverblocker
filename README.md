@@ -4,11 +4,11 @@
 | --- | --- |
 | **a cutesy portable server selector for overwatch 2** | `(=^･ω･^=)⊃━☆・*.` |
 
-block the servers you **don't** want to play on — with a kitty paw. open the app, tap a switch, that region is swatted. your matchmaking stops visiting laggy places until you say otherwise.
+block the servers you **don't** want to play on! open the app, tap a switch, that region is swatted. your matchmaking stops visiting that region until you say otherwise.
 
-> inspired by the amazing [**dropship**](https://github.com/stowmyy/dropship) by stowmyy ♡ — same idea, smaller, softer, more cat.
+> inspired by the amazing [**dropship**](https://github.com/stowmyy/dropship) by stowmyy ♡
 
-![tech](https://img.shields.io/badge/platform-Windows-ff9fc4) ![node](https://img.shields.io/badge/runtime-Node%2018%2B-c9b6ff) ![deps-zero-7fdcbc)
+![tech](https://img.shields.io/badge/platform-Windows-ff9fc4) ![node](https://img.shields.io/badge/runtime-Node%2018%2B-c9b6ff)
 
 ## how it works
 
@@ -19,16 +19,13 @@ the app does **not** touch the game files. it adds one outbound **windows firewa
 - the ip lists are factual ranges: static blizzard blocks + google cloud region prefixes (refreshed live from `gstatic.com/ipranges/cloud.json` on every launch)
 
 ## how to use
-
 ### easy mode (windows zip)
 
 1. grab **`cuteserverblocker-win-x64.zip`** from [Releases](../../releases) (built by CI — includes portable node, nothing to install)
 2. unzip it anywhere
 3. double-click **`cuteserverblocker.bat`** and accept the uac prompt (we need admin to edit the firewall)
-   - if windows says "Windows protected your computer" → *more info → run anyway* (unsigned bat, sorry ♡)
+   - if windows says "Windows protected your computer" → *more info → run anyway* (unsigned bat, sorry)
 4. the ui opens in your browser, block what you don't want, done!
-
-> no releases yet? open the **Actions** tab → *windows release* → *Run workflow* → download the zip from the run's artifacts. pushing a tag like `v0.1.0` also publishes a release automatically.
 
 ### from source (needs [node](https://nodejs.org) 18+)
 
@@ -39,16 +36,14 @@ npm start
 the ui opens at `http://127.0.0.1:7331` — **run your terminal as administrator** so windows lets us edit the firewall (the app can also re-launch itself elevated with the *restart as admin* button)
 
 then:
-
 1. block the regions you don't want
-2. done! you can close the app now ♡
+2. done! you can close the site now.
 
 ## warnings
 
-⚠ please read, nya~
+⚠ please read
 
 - when queuing **with other people**, the matchmaker may put you on servers you've avoided unless **everyone in the party** blocks them too
-- **practice range** doesn't use the matchmaker — test with a custom game
 - if you are failing to connect to a match, **unblock everything quickly** (the *let them all go* button) to avoid a competitive ban
 - blocking a google cloud region blocks *all* google cloud traffic in that region (same tradeoff as dropship)
 
@@ -74,7 +69,8 @@ npm run dist    # build dist/cuteserverblocker (add --with-node on windows)
 
 flags: `--port 7331` · `--dry-run` (never touch the firewall) · `--no-open` · `--demo-pings` (simulated latencies — handy in containers where icmp is blocked, or for screenshots)
 
-no dependencies, no build step — plain `node:http` on the backend and hand-written html/css/js on the front.
+no dependencies, no build step.
+`node:http` on the backend and hand-written html/css/js on the front.
 
 ```
 server/
